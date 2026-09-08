@@ -1,0 +1,25 @@
+title: Windows Scheduled Task Creation
+id: 123c6316-6c94-4e1f-bc46-410726d25f17
+status: experimental
+description: Detects creation of Windows scheduled tasks for persistence and administrative-change review.
+author: Okiemute Esiri
+date: 2026/09/08
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith: '\\schtasks.exe'
+    CommandLine|contains:
+      - ' /create '
+      - ' -create '
+  condition: selection
+falsepositives:
+  - Software deployment platforms
+  - Approved maintenance scripts
+  - Enterprise management tooling
+level: medium
+tags:
+  - attack.persistence
+  - attack.privilege_escalation
+  - attack.t1053.005

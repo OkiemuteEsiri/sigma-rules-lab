@@ -1,0 +1,23 @@
+title: User Added to Local Administrators Group
+id: 2e0d8d28-d46a-4c13-a98c-5185a1208d0f
+status: experimental
+description: Detects local group membership changes involving the built-in Administrators group for authorization review.
+author: Okiemute Esiri
+date: 2026/09/08
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4732
+    TargetUserName: 'Administrators'
+  condition: selection
+falsepositives:
+  - Approved endpoint administration changes
+  - Device provisioning workflows
+  - Privileged access tooling with authorized local elevation
+level: high
+tags:
+  - attack.persistence
+  - attack.privilege_escalation
+  - attack.t1098

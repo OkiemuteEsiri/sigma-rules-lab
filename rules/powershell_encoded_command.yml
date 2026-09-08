@@ -1,0 +1,27 @@
+title: Suspicious PowerShell Encoded Command
+id: 9e7d26a0-7ec7-4baf-9f25-5b418871a110
+status: experimental
+description: Detects PowerShell command lines containing encoded-command switches for analyst validation.
+author: Okiemute Esiri
+date: 2026/09/08
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_image:
+    Image|endswith:
+      - '\\powershell.exe'
+      - '\\pwsh.exe'
+  selection_flag:
+    CommandLine|contains:
+      - ' -enc '
+      - ' -encodedcommand '
+      - ' /enc '
+  condition: selection_image and selection_flag
+falsepositives:
+  - Authorized administration or deployment tooling that legitimately uses encoded PowerShell commands
+  - Security testing performed in an approved lab
+level: high
+tags:
+  - attack.execution
+  - attack.t1059.001
